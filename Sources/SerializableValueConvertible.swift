@@ -45,7 +45,11 @@ extension SerializableValue: SerializableConvertible {
 		case .optional(let value):
 			return value.dateValue
 		case .string(let value):
-			return ISO8601DateFormatter().date(from: value)
+            if #available(OSX 10.12, *) {
+                return ISO8601DateFormatter().date(from: value)
+            } else {
+                return nil
+            }
 		case .date(let value):
 			return value
 		default:
@@ -58,7 +62,7 @@ extension SerializableValue: SerializableConvertible {
 		case .optional(let value):
 			return value.dictionaryValue
 		case .custom(let value):
-			return value.dictionary
+			return value.serializableValue.dictionaryValue
 		case .dictionary(let value):
 			return value
 		default:
@@ -75,7 +79,7 @@ extension SerializableValue: SerializableConvertible {
 				return nil
 			} else {
 				return value.doubleValue
-			}
+            }
 		case .int(let value):
 			return Double(value)
 		case .float(let value):
@@ -96,7 +100,7 @@ extension SerializableValue: SerializableConvertible {
 				return nil
 			} else {
 				return value.floatValue
-			}
+            }
 		case .int(let value):
 			return Float(value)
 		case .float(let value):
@@ -151,13 +155,35 @@ extension SerializableValue: SerializableConvertible {
 		}
 	}
 
-	public var optionalValue: SerializableOptionalValue? {
-		switch self {
-		case .optional(let value):
-			return value
-		default:
-			return nil
-		}
+	public var optionalValue: SerializableOptionalValue {
+        switch self {
+        case .array(let value):
+            return .array(value)
+        case .bool(let value):
+            return .bool(value)
+        case .custom(let value):
+            return .custom(value)
+        case .date(let value):
+            return .date(value)
+        case .dictionary(let value):
+            return .dictionary(value)
+        case .double(let value):
+            return .double(value)
+        case .float(let value):
+            return .float(value)
+        case .int(let value):
+            return .int(value)
+        case .null:
+            return .null
+        case .number(let value):
+            return .number(value)
+        case .optional(let value):
+            return value
+        case .string(let value):
+            return .string(value)
+        case .url(let value):
+            return .url(value)
+        }
 	}
 
 	public var stringValue: String? {
@@ -165,7 +191,11 @@ extension SerializableValue: SerializableConvertible {
 		case .optional(let value):
 			return value.stringValue
 		case .date(let value):
-			return ISO8601DateFormatter().string(from: value)
+            if #available(OSX 10.12, *) {
+                return ISO8601DateFormatter().string(from: value)
+            } else {
+                return nil
+            }
 		case .string(let value):
 			return value
 		case .url(let value):

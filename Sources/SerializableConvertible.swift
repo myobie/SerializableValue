@@ -11,7 +11,7 @@ protocol SerializableConvertible {
     var intValue: Int? { get }
     var nullValue: NSNull { get }
     var numberValue: NSNumber? { get }
-	var optionalValue: SerializableOptionalValue? { get }
+	var optionalValue: SerializableOptionalValue { get }
     var stringValue: String? { get }
     var urlValue: URL? { get }
 }

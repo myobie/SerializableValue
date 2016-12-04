@@ -128,8 +128,8 @@ extension SerializableOptionalValue: SerializableConvertible {
 		return serializableValue.numberValue
 	}
 
-	public var optionalValue: SerializableOptionalValue? {
-		return serializableValue.optionalValue
+	public var optionalValue: SerializableOptionalValue {
+		return self
 	}
 	
 	public var stringValue: String? {
