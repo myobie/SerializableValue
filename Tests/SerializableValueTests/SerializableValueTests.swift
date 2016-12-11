@@ -387,4 +387,44 @@ class SerializableValueTests: XCTestCase {
         XCTAssertNil(value.stringValue)
         XCTAssertNil(value.urlValue)
     }
+
+	func testValueWrapsStringValue() {
+        let value: SerializableValue = .string("woo")
+        
+        XCTAssertNil(value.arrayValue)
+        XCTAssertNil(value.boolValue)
+        XCTAssertNil(value.customValue)
+        XCTAssertNil(value.dateValue)
+        XCTAssertNil(value.dictionaryValue)
+        XCTAssertNil(value.doubleValue)
+        XCTAssertNil(value.floatValue)
+        XCTAssertNil(value.intValue)
+        XCTAssertEqual(NSNull(), value.nullValue)
+        XCTAssertNil(value.numberValue)
+        XCTAssertNil(value.optionalValue.intValue)
+        
+        XCTAssertEqual("woo", value.stringValue)
+        XCTAssertEqual(URL(string: "woo"), value.urlValue)
+	}
+
+	func testValueWrapsURLValue() {
+		let url: URL = URL(string: "http://example.com/")!
+        let value: SerializableValue = .url(url)
+        
+        XCTAssertNil(value.arrayValue)
+        XCTAssertNil(value.boolValue)
+        XCTAssertNil(value.customValue)
+        XCTAssertNil(value.dateValue)
+        XCTAssertNil(value.dictionaryValue)
+        XCTAssertNil(value.doubleValue)
+        XCTAssertNil(value.floatValue)
+        XCTAssertNil(value.intValue)
+        XCTAssertEqual(NSNull(), value.nullValue)
+        XCTAssertNil(value.numberValue)
+        XCTAssertNil(value.optionalValue.intValue)
+
+        XCTAssertEqual("http://example.com/", value.stringValue)
+
+        XCTAssertEqual(url, value.urlValue)
+	}
 }
