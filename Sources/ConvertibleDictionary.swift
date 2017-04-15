@@ -1,30 +1,28 @@
 import Foundation
 
-protocol SerializableConvertibleDictionary {
+protocol ConvertibleDictionary {
 	associatedtype Key
-	typealias Value = SerializableValue
+	typealias Value = SerializableValues.Value
 	associatedtype Index
 	associatedtype Element
 	
 	subscript(key: Key) -> Value? { get set }
 	
-	func arrayValue(_ key: Key) -> SerializableArray?
+	func arrayValue(_ key: Key) -> Array?
 	func boolValue(_ key: Key) -> Bool?
-	func customValue(_ key: Key) -> CustomSerializable?
+	func customValue(_ key: Key) -> Custom?
 	func dateValue(_ key: Key) -> Date?
-	func dictionaryValue(_ key: Key) -> SerializableDictionary?
+	func dictionaryValue(_ key: Key) -> Dictionary?
 	func doubleValue(_ key: Key) -> Double?
 	func floatValue(_ key: Key) -> Float?
 	func intValue(_ key: Key) -> Int?
-	func nullValue(_ key: Key) -> NSNull
-	func numberValue(_ key: Key) -> NSNumber?
-	func optionalValue(_ key: Key) -> SerializableOptionalValue?
+	func optionalValue(_ key: Key) -> OptionalValue?
 	func stringValue(_ key: Key) -> String?
 	func urlValue(_ key: Key) -> URL?
 }
 
-extension SerializableConvertibleDictionary {
-	public func arrayValue(_ key: Key) -> SerializableArray? {
+extension ConvertibleDictionary {
+	public func arrayValue(_ key: Key) -> Array? {
 		return self[key]?.arrayValue
 	}
 	
@@ -32,7 +30,7 @@ extension SerializableConvertibleDictionary {
 		return self[key]?.boolValue
 	}
 
-	public func customValue(_ key: Key) -> CustomSerializable? {
+	public func customValue(_ key: Key) -> Custom? {
 		return self[key]?.customValue
 	}
 	
@@ -40,7 +38,7 @@ extension SerializableConvertibleDictionary {
 		return self[key]?.dateValue
 	}
 
-	public func dictionaryValue(_ key: Key) -> SerializableDictionary? {
+	public func dictionaryValue(_ key: Key) -> Dictionary? {
 		return self[key]?.dictionaryValue
 	}
 
@@ -55,16 +53,8 @@ extension SerializableConvertibleDictionary {
 	public func intValue(_ key: Key) -> Int? {
 		return self[key]?.intValue
 	}
-	
-	public func nullValue(_ key: String) -> NSNull {
-		return NSNull()
-	}
-	
-	public func numberValue(_ key: Key) -> NSNumber? {
-		return self[key]?.numberValue
-	}
 
-	public func optionalValue(_ key: Key) -> SerializableOptionalValue? {
+	public func optionalValue(_ key: Key) -> OptionalValue? {
 		return self[key]?.optionalValue
 	}
 	

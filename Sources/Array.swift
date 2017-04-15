@@ -1,33 +1,33 @@
 import Foundation
 
-public struct SerializableArray {
-	public var rawArray: [SerializableValue]
+public struct Array {
+	public var rawArray: [Value]
 	
 	public init() {
 		self.rawArray = []
 	}
 	
-	public init(_ array: [SerializableValue]) {
+	public init(_ array: [Value]) {
 		self.rawArray = array
 	}
 	
-	public init(_ array: [CustomSerializable]) {
+	public init(_ array: [Custom]) {
 		self.rawArray = array.map { .custom($0) }
 	}
 	
 	public init?(_ array: [Any]) {
-		var result = [SerializableValue]()
+		var result = [Value]()
 		for item in array {
-			guard let item = SerializableValue(item) else { return nil }
+			guard let item = Value(item) else { return nil }
 			result.append(item)
 		}
 		self.init(result)
 	}
 }
 
-extension SerializableArray: Collection {
+extension Array: Collection {
 	public typealias Index = Int
-	public typealias Element = SerializableValue
+	public typealias Element = Value
 	public typealias Key = Int
 	
 	public var startIndex: Index {

@@ -1,21 +1,21 @@
 import Foundation
 
-public struct SerializableDictionary {
-	public var rawDictionary: [String: SerializableValue]
+public struct Dictionary {
+	public var rawDictionary: [String: Value]
 	
 	public init() {
 		self.rawDictionary = [:]
 	}
 	
-	public init(_ dictionary: [String: SerializableValue]) {
+	public init(_ dictionary: [String: Value]) {
 		self.rawDictionary = dictionary
 	}
 	
 	public init?(_ dictionary: [AnyHashable: Any]) {
-		var result = [String: SerializableValue]()
+		var result = [String: Value]()
 		for (key, value) in dictionary {
 			guard let key = key as? String,
-				let value = SerializableValue(value)
+				let value = SerializableValues.Value(value)
 				else { return nil }
 			result[key] = value
 		}
@@ -23,9 +23,9 @@ public struct SerializableDictionary {
 	}
 }
 
-extension SerializableDictionary: Collection, SerializableConvertibleDictionary {
+extension Dictionary: Collection, ConvertibleDictionary {
 	public typealias Key = String
-	public typealias Value = SerializableValue
+	public typealias Value = SerializableValues.Value
 	public typealias Element = (key: Key, value: Value)
 	public typealias Index = DictionaryIndex<Key, Value>
 	
