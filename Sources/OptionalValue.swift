@@ -1,6 +1,6 @@
 import Foundation
 
-public enum OptionalValue {
+public enum OptionalValue: Equatable {
 	case array(Array?)
 	case bool(Bool?)
 	case custom(Custom?)
@@ -77,6 +77,10 @@ public enum OptionalValue {
 			}
 		}
 	}
+}
+
+public func ==(lhs: OptionalValue, rhs: OptionalValue) -> Bool {
+    return lhs.serializableValue == rhs.serializableValue
 }
 
 extension OptionalValue: Convertible {

@@ -1,5 +1,5 @@
 import XCTest
-import SerializableValues
+@testable import SerializableValues
 
 private struct FakeUserForCustomTest: Custom {
 	let id: Int

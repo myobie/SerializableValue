@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Dictionary {
+public struct Dictionary: Equatable {
 	public var rawDictionary: [String: Value]
 	
 	public init() {
@@ -21,6 +21,10 @@ public struct Dictionary {
 		}
 		self.rawDictionary = result
 	}
+}
+
+public func ==(lhs: Dictionary, rhs: Dictionary) -> Bool {
+    return lhs.rawDictionary == rhs.rawDictionary
 }
 
 extension Dictionary: Collection, ConvertibleDictionary {

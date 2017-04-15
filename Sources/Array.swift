@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Array {
+public struct Array: Equatable {
 	public var rawArray: [Value]
 	
 	public init() {
@@ -23,6 +23,10 @@ public struct Array {
 		}
 		self.init(result)
 	}
+}
+
+public func ==(lhs: Array, rhs: Array) -> Bool {
+    return lhs.rawArray == rhs.rawArray
 }
 
 extension Array: Collection {
