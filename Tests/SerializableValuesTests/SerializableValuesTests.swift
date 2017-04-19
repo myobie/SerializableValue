@@ -11,8 +11,7 @@ private struct FakeUserForCustomTest: Custom {
 	}
 
 	init?(_ serializableValue: Value) {
-		if
-            let dictionary = serializableValue.dictionaryValue,
+		if let dictionary = serializableValue.dictionaryValue,
 			let id = dictionary.intValue("id"),
 			let name = dictionary.stringValue("name") {
 
@@ -23,18 +22,16 @@ private struct FakeUserForCustomTest: Custom {
 	}
 
 	var serializableValue: Value {
-		let dict: [String: Value] = [
+		return [
 			"id": .int(id),
 			"name": .string(name)
 		]
-		return Value(dict)
 	}
 }
 
 class SerializableValueTests: XCTestCase {
 	func testValueWrapsArray() {
-		let array = Array([.int(1)])
-		let value = Value(array)
+        let value: Value = [1]
 
 		XCTAssertEqual(
             [1],
@@ -59,7 +56,7 @@ class SerializableValueTests: XCTestCase {
 	}
 
 	func testValueWrapsBool() {
-		let value = Value(false)
+        let value: Value = false
 
 		XCTAssertNil(value.arrayValue)
         
@@ -80,7 +77,7 @@ class SerializableValueTests: XCTestCase {
 
 	func testValueWrapsCustom() {
 		let user = FakeUserForCustomTest(id: 1, name: "Nathan")
-		let value = Value(user)
+		let value = user.serializableValue
         
         let custom = value.customValue as! FakeUserForCustomTest
         
@@ -118,7 +115,7 @@ class SerializableValueTests: XCTestCase {
 	func testValueWrapsDate() {
 		let ago = Date(timeIntervalSince1970: 0)
 		let agoString = "1970-01-01T00:00:00Z"
-		let value = Value(ago)
+        let value: Value = .date(ago)
 
 		XCTAssertNil(value.arrayValue)
 		XCTAssertNil(value.boolValue)
@@ -139,7 +136,7 @@ class SerializableValueTests: XCTestCase {
     func testValueWrapsDateAsString() {
         let ago = Date(timeIntervalSince1970: 0)
         let agoString = "1970-01-01T00:00:00Z"
-        let value = Value(agoString)
+        let value: Value = .string(agoString)
         
         XCTAssertNil(value.arrayValue)
         XCTAssertNil(value.boolValue)
@@ -158,8 +155,7 @@ class SerializableValueTests: XCTestCase {
     }
     
     func testValueWrapsDictionary() {
-        let dict: [String: Int] = ["one": 1, "two": 2]
-        let value = Value(dict)!
+        let value: Value = ["one": 1, "two": 2]
         
         XCTAssertNil(value.arrayValue)
         XCTAssertNil(value.boolValue)
@@ -183,7 +179,7 @@ class SerializableValueTests: XCTestCase {
     }
     
     func testValueWrapsDouble() {
-        let value = Value(Double(1.0))
+        let value: Value = .double(Double(1.0))
         
         XCTAssertNil(value.arrayValue)
         XCTAssertNil(value.boolValue)
@@ -203,7 +199,7 @@ class SerializableValueTests: XCTestCase {
     }
     
     func testValueWrapsFloat() {
-        let value = Value(Float(1.0))
+        let value: Value = .float(Float(1.0))
         
         XCTAssertNil(value.arrayValue)
         XCTAssertNil(value.boolValue)
@@ -223,7 +219,7 @@ class SerializableValueTests: XCTestCase {
     }
 
 	func testValueWrapsInt() {
-		let value = Value(1)
+        let value: Value = 1
 
 		XCTAssertNil(value.arrayValue)
 		XCTAssertNil(value.boolValue)
@@ -275,7 +271,7 @@ class SerializableValueTests: XCTestCase {
     }
 
 	func testValueWrapsStringValue() {
-        let value: Value = .string("woo")
+        let value: Value = "woo"
         
         XCTAssertNil(value.arrayValue)
         XCTAssertNil(value.boolValue)
