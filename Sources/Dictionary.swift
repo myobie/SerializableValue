@@ -24,7 +24,23 @@ public struct Dictionary: Equatable {
 }
 
 public func ==(lhs: Dictionary, rhs: Dictionary) -> Bool {
-    return lhs.rawDictionary == rhs.rawDictionary
+    guard lhs.keys.count == rhs.keys.count else {
+        return false
+    }
+    
+    let keys = lhs.keys.sorted()
+    
+    guard keys == rhs.keys.sorted() else {
+        return false
+    }
+    
+    for (key, value) in lhs {
+        guard value == rhs[key] else {
+            return false
+        }
+    }
+    
+    return true
 }
 
 extension Dictionary: Collection, ConvertibleDictionary {
@@ -44,6 +60,10 @@ extension Dictionary: Collection, ConvertibleDictionary {
 	public func index(after i: Index) -> Index {
 		return rawDictionary.index(after: i)
 	}
+    
+    public var keys: LazyMapCollection<Swift.Dictionary<Key, Value>, Key> {
+        return rawDictionary.keys
+    }
 	
 	public subscript(position: Index) -> Element {
 		get {

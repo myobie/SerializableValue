@@ -26,7 +26,17 @@ public struct Array: Equatable {
 }
 
 public func ==(lhs: Array, rhs: Array) -> Bool {
-    return lhs.rawArray == rhs.rawArray
+    guard lhs.count == rhs.count else {
+        return false
+    }
+    
+    for (index, value) in lhs.enumerated() {
+        guard value == rhs[index] else {
+            return false
+        }
+    }
+    
+    return true
 }
 
 extension Array: Collection {
